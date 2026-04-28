@@ -1,0 +1,223 @@
+api-1: (otp)
+input:
+curl -X 'POST' \
+  'http://127.0.0.1:8101/auth/send-otp' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "unnatijadhav05@gmail.com"
+}'
+
+
+response:
+'''
+{
+  "message": "OTP sent successfully"
+}
+'''
+
+-----
+
+api-2: (verify)
+input:
+curl -X 'POST' \
+  'http://127.0.0.1:8101/auth/verify-otp' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "unnatijadhav05@gmail.com",
+  "otp": "124612"
+}'
+
+
+response:
+'''
+{
+  "message": "OTP verified successfully"
+}
+'''
+
+api-3: (register)
+input:
+curl -X 'POST' \
+  'http://127.0.0.1:8101/user/register' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "full_name": "Test",
+  "email": "unnatijadhav05@gmail.com",
+  "password": "Welcome",
+  "mobile_number": "999999999"
+}'
+
+
+response:
+'''
+{
+  "message": "Registered successfully!"
+}
+'''
+
+-----
+
+
+api-4: (login)
+input:
+curl -X 'POST' \
+  'http://127.0.0.1:8101/user/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "unnatijadhav05@gmail.com",
+  "password": "Welcome"
+}'
+
+
+response:
+'''
+{
+  "message": "Login successful!",
+  "user_id": "54b0a7d0-3041-4e1c-80e5-83eeb4dbdb9a"
+}
+'''
+
+------
+
+api-5: (add emails)
+input:
+curl -X 'POST' \
+  'http://127.0.0.1:8101/email-accounts/add' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "user_id": "54b0a7d0-3041-4e1c-80e5-83eeb4dbdb9a",
+  "emails": [
+    "unnati@gmail.com", "unnati2@gmail.com"
+  ]
+}'
+
+
+response:
+'''
+{
+  "status": "success",
+  "message": "inserted successfully!"
+}
+'''
+
+----
+
+api-6: (keyword_config)
+input:
+curl -X 'POST' \
+  'http://127.0.0.1:8101/keywords/bulk-add' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "user_id": "54b0a7d0-3041-4e1c-80e5-83eeb4dbdb9a",
+  "category": [
+    {
+      "type": "subject",
+      "subject_keyword": [
+        "string"
+      ]
+    },
+    {
+      "type": "sender",
+      "subject_keyword": [
+        "string"
+      ]
+    }
+  ]
+}'
+
+response:
+'''
+{
+  "status": "success",
+  "message": "Data inserted successfully!"
+}
+'''
+
+----
+
+api-7: (alert config)
+input:
+curl -X 'POST' \
+  'http://127.0.0.1:8101/alerts/config' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "user_id": "54b0a7d0-3041-4e1c-80e5-83eeb4dbdb9a",
+  "alert_config": [
+    {
+      "email_alert": true,
+      "push_notification": false,
+      "whatsapp_alert": false,
+      "sms_alert": false,
+      "urgency_level": "low"
+    }
+  ]
+}'
+
+response:
+'''
+{
+  "status": "success",
+  "message": "preferences configured successfully!"
+}
+'''
+
+---
+
+api-8: (get added mails)
+input:
+curl -X 'GET' \
+  'http://127.0.0.1:8101/email-accounts/54b0a7d0-3041-4e1c-80e5-83eeb4dbdb9a' \
+  -H 'accept: application/json'
+
+response:
+'''
+[
+  {
+    "email_address": "unnati@gmail.com",
+    "pass_key": null,
+    "is_active": true,
+    "is_verified": false
+  },
+  {
+    "email_address": "unnati2@gmail.com",
+    "pass_key": null,
+    "is_active": true,
+    "is_verified": false
+  }
+]
+'''
+
+api-9: (update pass key)
+input:
+curl -X 'POST' \
+  'http://127.0.0.1:8101/email-accounts/update-passkey' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "user_id": "54b0a7d0-3041-4e1c-80e5-83eeb4dbdb9a",
+  "emails": [
+    {
+      "email_address": "unnati@gmail.com",
+      "pass_key": "aaaa bbbb cccc dddd"
+    },
+    {
+      "email_address": "unnati2@gmail.com",
+      "pass_key": "aaaa bbbb cccc dddd"
+    }
+  ]
+}'
+
+response:
+'''
+{
+  "status": "success",
+  "message": "updated successfully!"
+}
+'''
